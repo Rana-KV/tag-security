@@ -51,9 +51,7 @@ use the table below as an example:
 
 ## Overview
 
-One or two sentences describing the project -- something memorable and accurate
-that distinguishes your project to quickly orient readers who may be assessing
-multiple projects.
+
 
 ### Background
 
@@ -95,19 +93,20 @@ an arbitrarily large amount of data, possibly incurring financial cost or overwh
 
 ## Self-assessment use
 
-This self-assessment is created by the [project] team to perform an internal analysis of the
-project's security.  It is not intended to provide a security audit of [project], or
-function as an independent assessment or attestation of [project]'s security health.
+This self-assessment is created by the TiKV team to perform an internal analysis of the
+project's security. It is not intended to provide a security audit of TiKV, or
+function as an independent assessment or attestation of TiKV's security health.
 
-This document serves to provide [project] users with an initial understanding of
-[project]'s security, where to find existing security documentation, [project] plans for
-security, and general overview of [project] security practices, both for development of
-[project] as well as security of [project].
+This document serves to provide TiKV users with an initial understanding of
+TiKV's security, where to find existing security documentation, TiKV plans for
+security, and general overview of TiKV security practices, both for development of
+TiKV as well as security of TiKV.
 
-This document provides the CNCF TAG-Security with an initial understanding of [project]
-to assist in a joint-assessment, necessary for projects under incubation.  Taken
+This document provides the CNCF TAG-Security with an initial understanding of TiKV
+to assist in a joint-assessment, necessary for projects under incubation. Taken
 together, this document and the joint-assessment serve as a cornerstone for if and when
-[project] seeks graduation and is preparing for a security audit.
+TiKV seeks graduation and is preparing for a security audit.
+
 
 ## Security functions and features
 
