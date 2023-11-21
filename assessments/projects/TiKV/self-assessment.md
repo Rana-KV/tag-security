@@ -81,23 +81,23 @@ access, and then returns a token to the client.  The client then transmits that
 token to the file server, which, after confirming its validity, returns the file.
 
 ### Goals
-1. TiKV clients let you connect to a TiKV cluster and use raw (simple get/put) API or transaction (with transactional consistency guarantees) API to access and update your data. TiKV clients interact with PD and TiKV through gRPC.
-2. Scalability and consistency due to data being shared and replicated across multiple nodes (up to petabytes)
-3. Ensure data confidentiality and integrity in transit and at rest, using TLS
-4. Guarantee ACID properties for transactions to prevent data corruption
-5. Externally consistent distributed transactions to operate over multiple Key-Value Pairs
-6. Develop and maintain sophisticated access control systems to manage permissions effectively for different users and services interacting with TiKV
-7. Ensure compatibility and integration with widely used cloud-native security tools and platforms for seamless deployment in various environments 
-8. TiKV adopts MVCC(Multiversion Concurrency Control) which offers an extra layer of security in data management by maintaining multiple versions of data records. This approach helps to prevent conflicts and inconsistencies in a distributed environment where concurrent transactions occur. 
+* TiKV clients let you connect to a TiKV cluster and use raw (simple get/put) API or transaction (with transactional consistency guarantees) API to access and update your data. TiKV clients interact with PD and TiKV through gRPC.
+*  Scalability and consistency due to data being shared and replicated across multiple nodes (up to petabytes)
+* Ensure data confidentiality and integrity in transit and at rest, using TLS
+* Guarantee ACID properties for transactions to prevent data corruption
+* Externally consistent distributed transactions to operate over multiple Key-Value Pairs
+* Develop and maintain sophisticated access control systems to manage permissions effectively for different users and services interacting with TiKV
+* Ensure compatibility and integration with widely used cloud-native security tools and platforms for seamless deployment in various environments 
+* TiKV adopts MVCC(Multiversion Concurrency Control) which offers an extra layer of security in data management by maintaining multiple versions of data records. This approach helps to prevent conflicts and inconsistencies in a distributed environment where concurrent transactions occur. 
 
 
 ### Non-goals
-1. Not supposed to be a relational database (No SQL)
-2. Implement those features which compromise performance without clear security benefits
-3. Not good for “low-latency” reads and writes
-4. Pursuing perfect security; the aim should be to mitigate risk to acceptable levels as perfect security is unattainable
-5. Addressing end-user security, such as password manager or client side security, which are outside the database’s control
-Attempting to solve external network security issues that are beyond the scope of TiKV
+* Not supposed to be a relational database (No SQL)
+*  Implement those features which compromise performance without clear security benefits
+*   Not good for “low-latency” reads and writes
+*   Pursuing perfect security; the aim should be to mitigate risk to acceptable levels as perfect security is unattainable
+*   Addressing end-user security, such as password manager or client side security, which are outside the database’s control
+* Attempting to solve external network security issues that are beyond the scope of TiKV
 
 ## Self-assessment use
 
