@@ -184,11 +184,13 @@ patching/update availability.
 * **Different Store Size Among Nodes After Enabling Titan**: There were issues with varying store sizes among TiKV nodes after Titan was enabled
 * **TiKV Out of Memory(OOM)**: There were reported instances of TiKV running out of memory. 
 
-* 
-* [CII Best Practices](https://www.coreinfrastructure.org/programs/best-practices-program/).
-  Best Practices. A brief discussion of where the project is at
-  with respect to CII best practices and what it would need to
-  achieve the badge.
+ 
+***CII Best Practices***
+  A CII Best Practice is a process or method that, when executed effectively, leads to enhanced project performance. TiKV has many practices that seem to fulfill this concept.
+  * **Change Management**: TiKV, like many open-source projects, involves changes in code, features, and security practices. Effective change management is very crucial in the particular context for ensuring stable and secure updates to the software
+* **Risk Management**: The process of identifying, assessing, and managing risks is really fundamental in developing softwares, especially a database like TiKV. This aligns with the CII best practices of project risk management, where potential impacts are evaluated to mitigate risks
+* **Quality Management**: TiKV’s commitments to maintaining high-quality program and efficient processes showcases the CII best practices of quality management. This encompasses activities to improve efficiency and compliance, important for projects like TiKV which is widely used in various industries. 
+* **Lessons Learned**: Continuous improvement in software development is the key to achieve CII Best Practices. It is also important to keep track of its previous issues and bugs, and learn from its past experiences. TiKV has done a great job for that.
   
 ***Case Studies***
   
