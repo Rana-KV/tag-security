@@ -81,15 +81,23 @@ access, and then returns a token to the client.  The client then transmits that
 token to the file server, which, after confirming its validity, returns the file.
 
 ### Goals
-The intended goals of the projects including the security guarantees the project
- is meant to provide (e.g., Flibble only allows parties with an authorization
-key to change data it stores).
+1. TiKV clients let you connect to a TiKV cluster and use raw (simple get/put) API or transaction (with transactional consistency guarantees) API to access and update your data. TiKV clients interact with PD and TiKV through gRPC.
+2. Scalability and consistency due to data being shared and replicated across multiple nodes (up to petabytes)
+3. Ensure data confidentiality and integrity in transit and at rest, using TLS
+4. Guarantee ACID properties for transactions to prevent data corruption
+5. Externally consistent distributed transactions to operate over multiple Key-Value Pairs
+6. Develop and maintain sophisticated access control systems to manage permissions effectively for different users and services interacting with TiKV
+7. Ensure compatibility and integration with widely used cloud-native security tools and platforms for seamless deployment in various environments 
+8. TiKV adopts MVCC(Multiversion Concurrency Control) which offers an extra layer of security in data management by maintaining multiple versions of data records. This approach helps to prevent conflicts and inconsistencies in a distributed environment where concurrent transactions occur. 
+
 
 ### Non-goals
-Non-goals that a reasonable reader of the project’s literature could believe may
-be in scope (e.g., Flibble does not intend to stop a party with a key from storing
-an arbitrarily large amount of data, possibly incurring financial cost or overwhelming
- the servers)
+1. Not supposed to be a relational database (No SQL)
+2. Implement those features which compromise performance without clear security benefits
+3. Not good for “low-latency” reads and writes
+4. Pursuing perfect security; the aim should be to mitigate risk to acceptable levels as perfect security is unattainable
+5. Addressing end-user security, such as password manager or client side security, which are outside the database’s control
+Attempting to solve external network security issues that are beyond the scope of TiKV
 
 ## Self-assessment use
 
@@ -157,9 +165,25 @@ patching/update availability.
 
 ## Appendix
 
-* Known Issues Over Time. List or summarize statistics of past vulnerabilities
-  with links. If none have been reported, provide data, if any, about your track
-record in catching issues in code review or automated testing.
+* ** Known Issues Over Time. **
+* **Outdated Library Versions**: Some libraries used in TiKV were outdated and not actively maintained, posing a security risk. This issue highlighted the need for better patch management and attention to third-party dependencies
+**Database Encryption**: While the TiKV database encryption was evaluated, it was found to be using a basic XOR method, not yet production-ready. However, according to PingCap, it provides information about the encryption support in TiDB components. In TikV, it supports encryption at rest, and it allows TiKV to transparently encrypt data files using AES or SM4 in CTR mode.  
+**Codebase TODOs**: a large number of TODO blocks in the TiKV source code indicated incomplete functionalities, requiring further evaluation and integration to the project’s issue tracker. 
+**Fuzz Testing**: The implemented fuzzing tests were not properly run or evaluated at the time of the assessment, signaling a need for improvement in this area
+**Dependency Scanner Disabled**: the integrated dependency scanner was disabled due to a non-updated dependency, leading to potential security risks from unmonitored dependences
+**Lack of Bug Bounty Program**: While not a direct issue, the report suggested that implementing a bug bounty program could be beneficial for TiKV
+**High Apply Wait Tail Latency**: There was an issue with high latency in the apply wait tail, affecting performance
+**Performance regression**: a specific commit caused a 3-5% performance regression under certain workloads
+**False Positive in Slow Score**: This issue prevented the adoption of TiKV in production environments due to false positives in slow score measurement
+**Inconsistent Store Size After Enabling Titan**: Store size did not stabilize after enabling the Titan component
+**SST Importer Cleaning Requirement**: the SST Importer needed to clean the SST if no key-value needed to be saved and rewritten
+**CPU Usage of Snapshot-Worker Thread**: An enhancement was requested to reduce the CPU usage of this thread to prevent it from blocking scheduling
+**Slow Store Check Leader**: This bug potentially affected the ability of a store to advance resolve_ts
+**Titan Configuration Tuning**: This was listed as an enhancement issue to optimize the configuration of the Titan engine.
+**Different Store Size Among Nodes After Enabling Titan**: There were issues with varying store sizes among TiKV nodes after Titan was enabled
+**TiKV Out of Memory(OOM)**: There were reported instances of TiKV running out of memory. 
+
+* 
 * [CII Best Practices](https://www.coreinfrastructure.org/programs/best-practices-program/).
   Best Practices. A brief discussion of where the project is at
   with respect to CII best practices and what it would need to
