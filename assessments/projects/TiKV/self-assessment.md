@@ -186,7 +186,7 @@ patching/update availability.
 
  
 ***CII Best Practices***
-  A CII Best Practice is a process or method that, when executed effectively, leads to enhanced project performance. TiKV has many practices that seem to fulfill this concept.
+  > A CII Best Practice is a process or method that, when executed effectively, leads to enhanced project performance. TiKV has many practices that seem to fulfill this concept.
   * **Change Management**: TiKV, like many open-source projects, involves changes in code, features, and security practices. Effective change management is very crucial in the particular context for ensuring stable and secure updates to the software
 * **Risk Management**: The process of identifying, assessing, and managing risks is really fundamental in developing softwares, especially a database like TiKV. This aligns with the CII best practices of project risk management, where potential impacts are evaluated to mitigate risks
 * **Quality Management**: TiKV’s commitments to maintaining high-quality program and efficient processes showcases the CII best practices of quality management. This encompasses activities to improve efficiency and compliance, important for projects like TiKV which is widely used in various industries. 
