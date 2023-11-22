@@ -120,15 +120,16 @@ TiKV seeks graduation and is preparing for a security audit.
 
 ## Security functions and features
 
-* Critical.  A listing critical security components of the project with a brief
-description of their importance.  It is recommended these be used for threat modeling.
-These are considered critical design elements that make the product itself secure and
-are not configurable.  Projects are encouraged to track these as primary impact items
-for changes to the project.
-* Security Relevant.  A listing of security relevant components of the project with
-  brief description.  These are considered important to enhance the overall security of
-the project, such as deployment configurations, settings, etc.  These should also be
-included in threat modeling.
+***Critical Security Function and Features:**
+   - ***Transport-Layer Security (TLS)***: This is necessary for encrypted communication between TiKV nodes. This ensures the integrity and confidentiality of data in transit. TiKV uses OpenSSL to implement its TLS encryption.
+   - ***Programming Language (Rust)***: TiKV is written in Rust, a memory-safe language. This can be important to avoid memory leaks, buffer overflows, race conditions, etc.
+   - ***Timestamps and MVCC (Multiversion Concurrency Control)***: While this may not necessarily be thought of as a security feature, this is important because it helps maintain data consistency and integrity in a distributed environment.
+   - ***Raft Consensus Algorithm***: As with MVCC, although this may not necessarily be considered a security feature, this ensures fault tolerance and maintains availability of the data, in addition to consistency across distributed nodes.
+   - SECTION NOT FINISHED
+
+***Critical Security Function and Features:**
+
+
 
 ## Project compliance
 
@@ -136,22 +137,36 @@ Although TiKV does not provide explicit documentation regarding its compliance w
 
 ## Secure development practices
 
-* Development Pipeline.  A description of the testing and assessment processes that
-  the software undergoes as it is developed and built. Be sure to include specific
-information such as if contributors are required to sign commits, if any container
-images immutable and signed, how many reviewers before merging, any automated checks for
-vulnerabilities, etc.
-* Communication Channels. Reference where you document how to reach your team or
-  describe in corresponding section.
-  * Internal. How do team members communicate with each other?
-  * Inbound. How do users or prospective users communicate with the team?
-  * Outbound. How do you communicate with your users? (e.g. flibble-announce@
-    mailing list)
-* Ecosystem. How does your software fit into the cloud native ecosystem?  (e.g.
-  Flibber is integrated with both Flocker and Noodles which covers
-virtualization for 80% of cloud users. So, our small number of "users" actually
-represents very wide usage across the ecosystem since every virtual instance uses
-Flibber encryption by default.)
+For testing, TikV uses regression tests, performance tests, ChaosMesh, and models their algorithms utilizing TLA+. TikV uses Cargo as a universal project tool, and split tests into test modules in respective code files. Some used fuzzing libraries include, LLVMs libfuzzer, AFL and Google's Honggfuzz; however, tests do not run in an automated fashion.
+
+The TikV project utilizes persistent open groups which each focus on a part of the TikV project; teams and members provided in the teams folder for each individual project. Each team consists of reviewers, committers, maintainers:
+* **Reviewers**:  responsible for contributions and code review. 
+* **Committees**: granted write access and usually responsible for certain areas of the project.
+  - Each commit message must contain a “Signed-off-by” line for Developer Certificate of Origin
+* **Maintainers**: responsible for moderating the discussions, managing project release, and proposing new committers or maintainers.
+
+In addition, there is a separate infrastructure team, not responsible for the team decision-making process, but help on applying the decision. The current list of infrastructure members is provided with their emails and githubs on the TikV Governance page.
+* **Infrastructure team**: responsible for setting administration, security, and supporting the existing teams.
+
+**Voting**
+* Decisions regarding the project are made by votes on the primary project community repository
+* Votes are indicated via pull requests under the votes folder
+* Positive votes require no explanation, while vetoes(negative votes) must have an explanation. 
+* Required vote counts can vary based on the decision but typically require at least 2 positive votes.
+
+Internal Communication: Slack 
+Inbound Communication: Twitter, Blog, Reddit, Stack Overflow
+Outbound Communication: None
+
+**Ecosystem**
+As of writing there are currently four client drivers: Go, Java, Rust, and C
+* Go client is the only stable client
+* Java and Rust clients are considered unstable
+* C client is currently in early development
+
+TikV provides two separate clients: Raw and Transactional
+* ***Raw***: a lower-level key-value API for interacting directly with individual key-value pairs
+* ***Transactional***: A higher level key value API that provides ACID semantics
 
 ## Security issue resolution
 
@@ -191,7 +206,7 @@ Flibber encryption by default.)
 
 ## Appendix
 
-***Known Issues OverTime***
+***Known Issues Over Time***
 
 * **Outdated Library Versions**: Some libraries used in TiKV were outdated and not actively maintained, posing a security risk. This issue highlighted the need for better patch management and attention to third-party dependencies
 * **Database Encryption**: While the TiKV database encryption was evaluated, it was found to be using a basic XOR method, not yet production-ready. However, according to PingCap, it provides information about the encryption support in TiDB components. In TikV, it supports encryption at rest, and it allows TiKV to transparently encrypt data files using AES or SM4 in CTR mode.  
