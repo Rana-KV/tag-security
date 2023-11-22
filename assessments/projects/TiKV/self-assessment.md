@@ -161,28 +161,33 @@ Flibber encryption by default.)
 * To contribute “substantial changes”, RFC (request for comments) document provides a consistent and controlled path for new features to enter the project
   - RFC must provide summary, motivation, detailed design, drawbacks, alternative, and unanswered questions
 * To report a vital security vulnerability, an email should be sent to the TiKV-security group( tikv-security@lists.cncf.io), and encrypted using the public PGP key
-Disclosure Policy:
-The received security vulnerability report shall be handed over to the security team for follow-up coordination and repair work.
-After the vulnerability is confirmed, we will create a draft Security Advisory on Github that lists the details of the vulnerability.
-Invite related personnel to discuss the fix.
-Fork the temporary private repository on Github, and collaborate to fix the vulnerability.
-After the fix code is merged into all supported versions, the vulnerability will be publicly posted in the GitHub Advisory Database.
+  - Disclosure Policy:
+    - The received security vulnerability report shall be handed over to the security team for follow-up coordination and repair work.
+    - After the vulnerability is confirmed, we will create a draft Security Advisory on Github that lists the details of the vulnerability.
+    - Invite related personnel to discuss the fix.
+    - Fork the temporary private repository on Github, and collaborate to fix the vulnerability.
+    - After the fix code is merged into all supported versions, the vulnerability will be publicly posted in the GitHub Advisory Database.
 
-Potential Vulnerabilities in Key-Value Database Systems:
-Are there proper access controls that restrict unauthorized access to TiKV nodes and Placement Drivers by potentially malicious clients?
-Potential Vulnerabilities related to the Raft Consensus Algorithm:
-Are there proper integrity checks in place as the Leader Node is copying the client’s read/writes to the follower nodes?
-Potential Vulnerabilities related to Multiversion Concurrency Control (MVCC) used in TiKV:
-Is there any way to tamper with the timestamps in TiKV transactions?
-Transaction timestamps are stored in the metadata associated with each key-value pair
-If there is a conflict, i.e. two transactions trying to write to modify the same key, then only one transaction can be completed successfully, while others have to be retried.
-To prevent conflicts, TiKV uses locks to control key access.
-In theory, these timestamps are not encrypted (!!!), so the security of TiKV is contingent upon the security measures implemented at higher and lower levels (higher – Application level; lower – RocksDB)
-Potential Vulnerabilities related to RocksDB, TiKV’s storage engine:
-RocksDB may have vulnerable third-party dependencies, so if RocksDB has them, so does TiKV potentially.
-RocksDB does not support Data-at-Rest encryption (DARE), which means encrypting any data stored in persistent storage
-In fact, RocksDB does not have any built-in encryption features
+**Potential Vulnerabilities in Key-Value Database Systems:**
 
+* Are there proper access controls that restrict unauthorized access to TiKV nodes and Placement Drivers by potentially malicious clients?
+  
+**Potential Vulnerabilities related to the Raft Consensus Algorithm:**
+
+* Are there proper integrity checks in place as the Leader Node is copying the client’s read/writes to the follower nodes?
+  
+**Potential Vulnerabilities related to Multiversion Concurrency Control (MVCC) used in TiKV:**
+
+* Is there any way to tamper with the timestamps in TiKV transactions?
+  - Transaction timestamps are stored in the metadata associated with each key-value pair
+  - If there is a conflict, i.e. two transactions trying to write to modify the same key, then only one transaction can be completed successfully, while others have to be retried.
+  - To prevent conflicts, TiKV uses locks to control key access.
+  - In theory, these timestamps are not encrypted (!!!), so the security of TiKV is contingent upon the security measures implemented at higher and lower levels (higher – Application level; lower – RocksDB)
+  
+**Potential Vulnerabilities related to RocksDB, TiKV’s storage engine:**
+* RocksDB may have vulnerable third-party dependencies, so if RocksDB has them, so does TiKV potentially.
+* RocksDB does not support Data-at-Rest encryption (DARE), which means encrypting any data stored in persistent storage
+* In fact, RocksDB does not have any built-in encryption features
 
 ## Appendix
 
