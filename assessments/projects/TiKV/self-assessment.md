@@ -51,7 +51,7 @@ use the table below as an example:
 
 ## Overview
 **TiKV (Ti Key-Value)**
-TiKV is an open-source, distributed, and transactional key-value database. TiKV is scalable, low latency, and easy to use key-value database, and it is optimized for petabyte-scale deployments.
+TiKV is an open-source, distributed, and transactional key-value database. TiKV is scalable, low latency, and an easy to use key-value database, and it is optimized for petabyte-scale deployments.
 
 ### Background
 
