@@ -47,16 +47,18 @@ use the table below as an example:
 | Doc | url |
 | -- | -- |
 | Security file | https://github.com/tikv/tikv/blob/master/security/Security-Audit.pdf |
-| Default and optional configs | https://example.org/config |
+| Default and optional configs | TBD - https://example.org/config |
 
 ## Overview
-
-
+**TiKV (Ti Key-Value)**
+TiKV is an open-source, distributed, and transactional key-value database. TiKV is scalable, low latency, and easy to use key-value database, and it is optimized for petabyte-scale deployments.
 
 ### Background
 
-Provide information for reviewers who may not be familiar with your project's
-domain or problem area.
+Key-value databases are optimized for fast data retrieval. They offer high performance for read/write operations, making them ideal for applications that require rapid access to data.
+
+TiKV is part of the Cloud Native Computing Foundation and created by PingCAP; it features ACID-compliant transactional APIs and ensures data consistency and high availability through the Raft consensus algorithm, TiKV is designed to operate independently of heavy distributed file systems. The aim of the project is to provide a solution similar to Google Spanner and HBase, but with a focus on simplicity and ease of use for massive datasets.
+
 
 ### Actors
 These are the individual parts of your system that interact to provide the 
@@ -153,15 +155,34 @@ Flibber encryption by default.)
 
 ## Security issue resolution
 
-* Responsible Disclosures Process. A outline of the project's responsible
-  disclosures process should suspected security issues, incidents, or
-vulnerabilities be discovered both external and internal to the project. The
-outline should discuss communication methods/strategies.
-  * Vulnerability Response Process. Who is responsible for responding to a
-    report. What is the reporting process? How would you respond?
-* Incident Response. A description of the defined procedures for triage,
-  confirmation, notification of vulnerability or security incident, and
-patching/update availability.
+***Note:*** When looking for methods of security issue resolution, there was no easily accessible area to discuss each protocol. This could potentially lead to mishaps like major security vulnerabilities being publicly shown as issues
+
+* Bug Fixes or documentation improvement can implemented via a normal Github Pull Request workload
+* To contribute “substantial changes”, RFC (request for comments) document provides a consistent and controlled path for new features to enter the project
+  - RFC must provide summary, motivation, detailed design, drawbacks, alternative, and unanswered questions
+* To report a vital security vulnerability, an email should be sent to the TiKV-security group( tikv-security@lists.cncf.io), and encrypted using the public PGP key
+Disclosure Policy:
+The received security vulnerability report shall be handed over to the security team for follow-up coordination and repair work.
+After the vulnerability is confirmed, we will create a draft Security Advisory on Github that lists the details of the vulnerability.
+Invite related personnel to discuss the fix.
+Fork the temporary private repository on Github, and collaborate to fix the vulnerability.
+After the fix code is merged into all supported versions, the vulnerability will be publicly posted in the GitHub Advisory Database.
+
+Potential Vulnerabilities in Key-Value Database Systems:
+Are there proper access controls that restrict unauthorized access to TiKV nodes and Placement Drivers by potentially malicious clients?
+Potential Vulnerabilities related to the Raft Consensus Algorithm:
+Are there proper integrity checks in place as the Leader Node is copying the client’s read/writes to the follower nodes?
+Potential Vulnerabilities related to Multiversion Concurrency Control (MVCC) used in TiKV:
+Is there any way to tamper with the timestamps in TiKV transactions?
+Transaction timestamps are stored in the metadata associated with each key-value pair
+If there is a conflict, i.e. two transactions trying to write to modify the same key, then only one transaction can be completed successfully, while others have to be retried.
+To prevent conflicts, TiKV uses locks to control key access.
+In theory, these timestamps are not encrypted (!!!), so the security of TiKV is contingent upon the security measures implemented at higher and lower levels (higher – Application level; lower – RocksDB)
+Potential Vulnerabilities related to RocksDB, TiKV’s storage engine:
+RocksDB may have vulnerable third-party dependencies, so if RocksDB has them, so does TiKV potentially.
+RocksDB does not support Data-at-Rest encryption (DARE), which means encrypting any data stored in persistent storage
+In fact, RocksDB does not have any built-in encryption features
+
 
 ## Appendix
 
