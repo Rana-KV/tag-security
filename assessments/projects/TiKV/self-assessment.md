@@ -159,18 +159,17 @@ In addition, there is a separate infrastructure team, not responsible for the te
 * Positive votes require no explanation, while vetoes(negative votes) must have an explanation. 
 * Required vote counts can vary based on the decision but typically require at least 2 positive votes.
 
-Internal Communication: Slack 
+* Internal Communication: Slack 
 
-Inbound Communication: Twitter, Blog, Reddit, Stack Overflow
+ * Inbound Communication: Twitter, Blog, Reddit, Stack Overflow
 
-Outbound Communication: None
+* Outbound Communication: None
 
 **Ecosystem**
-
-As of writing there are currently four client drivers: Go, Java, Rust, and C
-* Go client is the only stable client
-* Java and Rust clients are considered unstable
-* C client is currently in early development
+* As of writing there are currently four client drivers: Go, Java, Rust, and C
+  - Go client is the only stable client
+  - Java and Rust clients are considered unstable
+  - C client is currently in early development
 
 TikV provides two separate clients: Raw and Transactional
 * ***Raw***: a lower-level key-value API for interacting directly with individual key-value pairs
