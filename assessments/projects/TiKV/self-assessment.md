@@ -51,38 +51,42 @@ use the table below as an example:
 
 ## Overview
 **TiKV (Ti Key-Value)**
-TiKV is an open-source, distributed, and transactional key-value database. TiKV is scalable, low latency, and an easy to use key-value database, and it is optimized for petabyte-scale deployments.
+
+TiKV is an open-source, distributed, and transactional key-value database designed without heavy dependencies on existing distributed file systems. TiKV is scalable, low latency, and an easy to use key-value database, and it is optimized for petabyte-scale deployments.
+
+TiKV is inspired from Titanium (‘***Ti***’), as the creators kept the element’s property in mind. ‘***KV***’ is for the ‘key-value’ combination in reference to the databases where it is majorly used. 
 
 ### Background
 
 Key-value databases are optimized for fast data retrieval. They offer high performance for read/write operations, making them ideal for applications that require rapid access to data.
 
-TiKV is part of the Cloud Native Computing Foundation and created by PingCAP; it features ACID-compliant transactional APIs and ensures data consistency and high availability through the Raft consensus algorithm, TiKV is designed to operate independently of heavy distributed file systems. The aim of the project is to provide a solution similar to Google Spanner and HBase, but with a focus on simplicity and ease of use for massive datasets.
+TiKV is part of the Cloud Native Computing Foundation and created by PingCAP; it features ACID-compliant transactional APIs and ensures data consistency and high availability through the Raft consensus algorithm. The aim of the project is to provide a solution similar to Google Spanner and HBase, but with a focus on simplicity and ease of use for massive datasets.
 
 
 ### Actors
-These are the individual parts of your system that interact to provide the 
-desired functionality.  Actors only need to be separate, if they are isolated
-in some way.  For example, if a service has a database and a front-end API, but
-if a vulnerability in either one would compromise the other, then the distinction
-between the database and front-end is not relevant.
 
-The means by which actors are isolated should also be described, as this is often
-what prevents an attacker from moving laterally after a compromise.
+* **Clients**
+* **TiKV Instance**
+  - Data Regions (within TiKV Nodes)
+* **Placement Driver**
+    - TimeStamp Oracle (within Placement Driver)
 
 ### Actions
-These are the steps that a project performs in order to provide some service
-or functionality.  These steps are performed by different actors in the system.
-Note, that an action need not be overly descriptive at the function call level.  
-It is sufficient to focus on the security checks performed, use of sensitive 
-data, and interactions between actors to perform an action.  
 
-For example, the access server receives the client request, checks the format, 
-validates that the request corresponds to a file the client is authorized to 
-access, and then returns a token to the client.  The client then transmits that 
-token to the file server, which, after confirming its validity, returns the file.
+* **Clients**
+  - TiKV provides two types of APIs for developers: the Raw Key-Value API and the Transactional Key-Value API.
+* **TiKV Instance**
+  - Each instances acts isolated from each other node 
+  - Data is distributed across TiKV instances via the Raft consensus algorithm
+  - Data Regions (within TiKV Nodes)
+    - The basic unit of key-value data movement. Each Region is replicated to multiple Nodes, and multiple replicas form a Raft group.
+* **Placement Driver**
+    - The cluster manager of TiKV, which periodically checks replication constraints to balance load and data automatically across nodes and regions in a process called auto-sharding.
+    - TimeStamp Oracle (within Placement Driver)
+      - Plays a significant role in the Percolator transaction model, and every transaction requires contacting the oracle at least twice, and requires proper scalability.
 
 ### Goals
+
 * TiKV clients let you connect to a TiKV cluster and use raw (simple get/put) API or transaction (with transactional consistency guarantees) API to access and update your data. TiKV clients interact with PD and TiKV through gRPC.
 *  Scalability and consistency due to data being shared and replicated across multiple nodes (up to petabytes)
 * Ensure data confidentiality and integrity in transit and at rest, using TLS
