@@ -122,16 +122,17 @@ together, this document and the joint-assessment serve as a cornerstone for if a
 TiKV seeks graduation and is preparing for a security audit.
 
 
-## Security functions and features
+## Security Functions and Features
 
-***Critical Security Function and Features:**
+**Critical Security Functions and Features:**
    - ***Transport-Layer Security (TLS)***: This is necessary for encrypted communication between TiKV nodes. This ensures the integrity and confidentiality of data in transit. TiKV uses OpenSSL to implement its TLS encryption.
    - ***Programming Language (Rust)***: TiKV is written in Rust, a memory-safe language. This can be important to avoid memory leaks, buffer overflows, race conditions, etc.
    - ***Timestamps and MVCC (Multiversion Concurrency Control)***: While this may not necessarily be thought of as a security feature, this is important because it helps maintain data consistency and integrity in a distributed environment.
    - ***Raft Consensus Algorithm***: As with MVCC, although this may not necessarily be considered a security feature, this ensures fault tolerance and maintains availability of the data, in addition to consistency across distributed nodes.
    - SECTION NOT FINISHED
 
-***Critical Security Function and Features:**
+**Relevant Security Functions and Features:**
+   - SECTION NOT FINISHED
 
 
 
