@@ -160,10 +160,13 @@ In addition, there is a separate infrastructure team, not responsible for the te
 * Required vote counts can vary based on the decision but typically require at least 2 positive votes.
 
 Internal Communication: Slack 
+
 Inbound Communication: Twitter, Blog, Reddit, Stack Overflow
+
 Outbound Communication: None
 
 **Ecosystem**
+
 As of writing there are currently four client drivers: Go, Java, Rust, and C
 * Go client is the only stable client
 * Java and Rust clients are considered unstable
