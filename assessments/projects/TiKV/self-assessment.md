@@ -129,10 +129,14 @@ TiKV seeks graduation and is preparing for a security audit.
    - ***Programming Language (Rust)***: TiKV is written in Rust, a memory-safe language. This can be important to avoid memory leaks, buffer overflows, race conditions, etc.
    - ***Timestamps and MVCC (Multiversion Concurrency Control)***: While this may not necessarily be thought of as a security feature, this is important because it helps maintain data consistency and integrity in a distributed environment.
    - ***Raft Consensus Algorithm***: As with MVCC, although this may not necessarily be considered a security feature, this ensures fault tolerance and maintains availability of the data, in addition to consistency across distributed nodes.
-   - SECTION NOT FINISHED
+   - ***Authentication***: This is fundamental principle to control access to TiKV clusters. Without authentication, there is not way of ensuring that only authroized users are interacting with node clusters.
 
 * **Relevant Security Functions and Features:**
-   - SECTION NOT FINISHED
+   - ***Role-Based Access Control***: Although Role-Based Access Control (RBAC) itself can be considered a critical security feature. Specific roles and associated privileges can be defined and configured based on the security policy and needs of the organization.
+   - ***Encryption Configuration***: Although there is no built-in on-disk encryption, TiKV does offer options for enabling encryption at rest, which can provide an extra layer of security by protecting data on the disk.
+   - ***Cluster Security***: Certain network security features, such as firewalls, can be configured by an organization depending on its security policies and security needs in order to resrict access to TiKV nodes and ensure communication between trusted entities.
+   - ***TLS Certificate Management***: Although TLS is a critical security feature, depending on the infrastructure of the organization, TiKV allows for the configuration of TLS certificates and keys for TiKV services, Placement Driver Services, and/or TiKV Clients.
+   - ***TiKV Backup and Restore Configurations***: TiKV Backup & Restore (TiKV-BR) is a command-line tool for distributed backup and restoration of TiKV cluster data. Certain aspects of a TiKV backup can be configured including use of a checksum and use of TLS.
 
 
 
@@ -230,7 +234,8 @@ TikV provides two separate clients: Raw and Transactional
 * **Slow Store Check Leader**: This bug potentially affected the ability of a store to advance resolve_ts
 * **Titan Configuration Tuning**: This was listed as an enhancement issue to optimize the configuration of the Titan engine.
 * **Different Store Size Among Nodes After Enabling Titan**: There were issues with varying store sizes among TiKV nodes after Titan was enabled
-* **TiKV Out of Memory(OOM)**: There were reported instances of TiKV running out of memory. 
+* **TiKV Out of Memory(OOM)**: There were reported instances of TiKV running out of memory.
+* **Not All TiKV Clients Offer The Same Encryption**: According to TiKV's Security Configuration page, the TiKV Java Client does not currently support TLS. 
 
  
 ***CII Best Practices***
