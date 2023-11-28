@@ -61,6 +61,30 @@ Key-value databases are optimized for fast data retrieval. They offer high perfo
 
 TiKV is part of the Cloud Native Computing Foundation and created by PingCAP; it features ACID-compliant transactional APIs and ensures data consistency and high availability through the Raft consensus algorithm. The aim of the project is to provide a solution similar to Google Spanner and HBase, but with a focus on simplicity and ease of use for massive datasets.
 
+### Architecture
+* OS Layer | Storage Engine (RocksDB) → Consensus Model → Transaction (implements MVCC = multiversion concurrency control and distributed transactions) → KV API | Clients (using the gRPC protocol to connect to TiKV)
+* Storage Engine
+  - Uses RocksDB
+    - High Read/Write Performance
+    - Easy to embed in Rust (TiKV is written in Rust)
+    - Stable
+* Consensus Model
+  - Raft Consensus Algorithm
+    - Client reads/writes to leader node
+    - Leader node replicates client requests to follower nodes
+    - The transaction is successful is the majority of the nodes (inc. leader and follower nodes) have fulfilled the client request
+    - If the leader node fails, then the up-to-date follower becomes the leader.
+    - Minimum cluster of 3 nodes in TiKV
+    - As long as the majority of nodes are alive, the whole cluster is available
+  - TiKV uses Range Sharding as opposed to Hash Sharding, which is used by other systems
+    - Range sharding is better if you want to scale
+  - TiKV brings together Replication (Raft Protocol) and Sharding (Range Sharding)
+  - When Scaling (i.e. adding extra nodes), the nodes are balanced and the leader of one Node (highlighted with the dark black border), becomes the leader of the new Node
+* The Placement Driver
+  - The PD Cluster stores “Region Information,” which the client can use to know what node to access
+  - The Placement Driver is “Highly Available”
+* Client
+  - Client uses gRPC protocol to interface with Placements Drivers and TiKV nodes
 
 ### Actors
 
