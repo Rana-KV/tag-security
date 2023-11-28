@@ -50,7 +50,7 @@ TiKV is part of the Cloud Native Computing Foundation and created by PingCAP; it
 
 ### Architecture
 
-<img src="./src/imgs/tikv_wholepic.png">
+<img src="./src/imgs/layer.png">
 
 * OS Layer | Storage Engine (RocksDB) → Consensus Model → Transaction (implements MVCC = multiversion concurrency control and distributed transactions) → KV API | Clients (using the gRPC protocol to connect to TiKV)
 
@@ -90,6 +90,8 @@ TiKV is part of the Cloud Native Computing Foundation and created by PingCAP; it
 
 * **Client**
   - Client uses gRPC protocol to interface with Placements Drivers and TiKV nodes
+
+<img src="./src/imgs/tikv_wholepic.png">
 
 ### Actors
 
