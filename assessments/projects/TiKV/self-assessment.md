@@ -52,7 +52,7 @@ TiKV is part of the Cloud Native Computing Foundation and created by PingCAP; it
 
 <img src="./src/imgs/layer.png">
 
-* Layers
+* **Layers**
   - OS Layer Storage Engine (RocksDB)
   - Consensus Model
   - Transaction (implements MVCC = multiversion concurrency control and distributed transactions)
