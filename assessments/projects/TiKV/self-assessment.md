@@ -279,16 +279,29 @@ Deploys TiKV with TiDB:
 PingCAP is the company behind the open-source TiKV project and supplies continuous development of the project. TiDB Cloud is a database-as-a-service (DBaas) provided by PingCAP. It is built using TiKV and TiDB technologies. It offers fully-managed clusters of the open source TiKV database in the cloud. TiDB Cloud manages various operational tasks such as provisioning, upgrades, scaling, monitoring, and ensuring high availability. The main difference is that some users may prefer the convenience of TiDB Cloud as a service to the responsibility of administering their own TiKV environment. Overall, TiDB Cloud is intended for utilization by users who desire to operate it locally or as a service. Both projects give users the opportunity to leverage PingCAP's innovative technology. 
 
 ## STRIDE Threat Model
-| Component | Spoofing | Tampering | Repudiation | Information Disclosure | Denial of Service | Elevation of Privilege |
-|-----------|----------|-----------|-------------|------------------------|-------------------|------------------------|
-| TiKV Nodes & Placement Drivers | Unauthorized access control | | | | | |
-| Password Protection | | | | Two-factor authentication safety | | |
-| Raft Consensus Algorithm | | Integrity checks in leader node | | | Byzantine-control attack if malicious node becomes leader | |
-| Multiversion Concurrency Control (MVCC) | | Tampering with timestamps; Conflict handling | | Unencrypted timestamps | | |
-| RocksDB (Storage Engine) | | | | Vulnerable third-party dependencies; Lack of Data-at-Rest encryption | | |
-| TiKV Clients | | | | Unencrypted access by compromised clients; Unencrypted disk | | |
-| Placement Driver | | | | | Control of Placement Driver can affect availability or shut down system | |
-| Timestamp Oracle | | | | | Scalability issues; Gap in timestamp allocation during leader election | |
+| Component                         | Spoofing Identity | Tampering | Repudiation | Information Disclosure       | Denial of Service               | Elevation of Privilege |
+|-----------------------------------|-------------------|-----------|-------------|------------------------------|---------------------------------|------------------------|
+| Access Controls                   | Unauthorized access control to nodes and PD | | | | | |
+| Password Protection               | | | | Potential weaknesses in two-factor authentication | | |
+| Raft Consensus Algorithm          | | Integrity checks during replication | | Byzantine-control risk if malicious leader elected | | |
+| MVCC in TiKV                      | | Timestamp tampering; Conflict resolution via retries | | Unencrypted timestamps pose risk | | |
+| RocksDB Storage Engine            | | | | Vulnerable dependencies; Lack of DARE | | |
+| TiKV Clients                      | | | | Risk of unencrypted access by compromised client; Unencrypted disk | | |
+| Placement Driver                  | | | | Metadata control could impact system availability | Control could shut down the system | |
+| Timestamp Oracle                  | | | | | Scalability issues; Gap in timestamp allocation during leader transition | |
+| Transport-Layer Security (TLS)    | | | | Ensures data integrity and confidentiality in transit | | |
+| Programming Language (Rust)       | | Helps prevent memory leaks, buffer overflows, race conditions | | | | |
+| Authentication                    | Prevents unauthorized access | | | | | |
+| Role-Based Access Control (RBAC)  | Defined roles and privileges | | | | | |
+| Encryption Configuration          | | | | Limited on-disk encryption options | | |
+| Cluster Security                  | | | | Firewalls and network security measures | | |
+| TLS Certificate Management        | | | | Manages TLS certificates and keys | | |
+| TiKV Backup and Restore Configs   | | | | | | |
+| Testing & Quality Assurance       | | Fuzz testing; Regression and performance tests | | | | |
+| Bug Reporting & Resolution        | | | | | | |
+| Communication & Community Input   | | | | | | |
+| Client Drivers                    | | | | Not all clients offer same encryption standards | | |
+| Documentation & Compliance        | | | | | | |
 
 
 
