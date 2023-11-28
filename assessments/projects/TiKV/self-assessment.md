@@ -1,16 +1,14 @@
 # TiKV Security Self-Assessment
 
-# Self-assessment outline
-
 ## Table of contents
 
 * [Metadata](#metadata)
   * [Security links](#security-links)
 * [Overview](#overview)
+  * [Background](#background)
   * [Architecture](#architecture)
   * [Actors](#actors)
   * [Actions](#actions)
-  * [Background](#background)
   * [Goals](#goals)
   * [Non-goals](#non-goals)
 * [Self-assessment use](#self-assessment-use)
