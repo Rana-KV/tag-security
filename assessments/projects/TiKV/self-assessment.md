@@ -279,6 +279,16 @@ Deploys TiKV with TiDB:
 PingCAP is the company behind the open-source TiKV project and supplies continuous development of the project. TiDB Cloud is a database-as-a-service (DBaas) provided by PingCAP. It is built using TiKV and TiDB technologies. It offers fully-managed clusters of the open source TiKV database in the cloud. TiDB Cloud manages various operational tasks such as provisioning, upgrades, scaling, monitoring, and ensuring high availability. The main difference is that some users may prefer the convenience of TiDB Cloud as a service to the responsibility of administering their own TiKV environment. Overall, TiDB Cloud is intended for utilization by users who desire to operate it locally or as a service. Both projects give users the opportunity to leverage PingCAP's innovative technology. 
 
 ## STRIDE Threat Model
+| Component | Spoofing | Tampering | Repudiation | Information Disclosure | Denial of Service | Elevation of Privilege |
+|-----------|----------|-----------|-------------|------------------------|-------------------|------------------------|
+| TiKV Nodes & Placement Drivers | Unauthorized access control | | | | | |
+| Password Protection | | | | Two-factor authentication safety | | |
+| Raft Consensus Algorithm | | Integrity checks in leader node | | | Byzantine-control attack if malicious node becomes leader | |
+| Multiversion Concurrency Control (MVCC) | | Tampering with timestamps; Conflict handling | | Unencrypted timestamps | | |
+| RocksDB (Storage Engine) | | | | Vulnerable third-party dependencies; Lack of Data-at-Rest encryption | | |
+| TiKV Clients | | | | Unencrypted access by compromised clients; Unencrypted disk | | |
+| Placement Driver | | | | | Control of Placement Driver can affect availability or shut down system | |
+| Timestamp Oracle | | | | | Scalability issues; Gap in timestamp allocation during leader election | |
 
 
 
