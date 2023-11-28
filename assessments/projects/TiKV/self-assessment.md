@@ -52,7 +52,12 @@ TiKV is part of the Cloud Native Computing Foundation and created by PingCAP; it
 
 <img src="./src/imgs/layer.png">
 
-* OS Layer | Storage Engine (RocksDB) → Consensus Model → Transaction (implements MVCC = multiversion concurrency control and distributed transactions) → KV API | Clients (using the gRPC protocol to connect to TiKV)
+* Layers
+  - OS Layer Storage Engine (RocksDB)
+  - Consensus Model
+  - Transaction (implements MVCC = multiversion concurrency control and distributed transactions)
+  - KV API
+  - Clients (using the gRPC protocol to connect to TiKV)
 
 * **Storage Engine**
   - Uses RocksDB
@@ -67,9 +72,9 @@ TiKV is part of the Cloud Native Computing Foundation and created by PingCAP; it
   * Raft Consensus Algorithm
     - Client reads/writes to leader node
     - Leader node replicates client requests to follower nodes
-    - The transaction is successful is the majority of the nodes (inc. leader and follower nodes) have fulfilled the client request
-    - If the leader node fails, then the up-to-date follower becomes the leader.
-    - Minimum cluster of 3 nodes in TiKV
+    - The transaction is successful is the majority of the nodes (inccluding leader and follower nodes) have fulfilled the client request
+    - If the leader node fails, then the up-to-date follower becomes the leader
+    - Minimum cluster of three nodes in TiKV
     - As long as the majority of nodes are alive, the whole cluster is available
   
   * TiKV uses Range Sharding as opposed to Hash Sharding, which is used by other systems
