@@ -19,9 +19,6 @@
 * [Appendix](#appendix)
 
 ## Metadata
-
-A table at the top for quick reference information, later used for indexing.
-
 |   |  |
 | -- | -- |
 | Software | [TiKV](https://github.com/tikv/tikv/tree/master)  |
