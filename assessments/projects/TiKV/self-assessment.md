@@ -72,9 +72,9 @@ TiKV is part of the Cloud Native Computing Foundation and created by PingCAP; it
   * Raft Consensus Algorithm
     - Client reads/writes to leader node
     - Leader node replicates client requests to follower nodes
-    - The transaction is successful is the majority of the nodes (inccluding leader and follower nodes) have fulfilled the client request
-    - If the leader node fails, then the up-to-date follower becomes the leader
-    - Minimum cluster of three nodes in TiKV
+    - The transaction is successful if the majority of the nodes (including leader and follower nodes) have fulfilled the client request
+    - If the leader node fails, then the up-to-date follower node becomes the leader
+      - There is a minimum of three nodes in a TiKV cluster
     - As long as the majority of nodes are alive, the whole cluster is available
   
   * TiKV uses Range Sharding as opposed to Hash Sharding, which is used by other systems
