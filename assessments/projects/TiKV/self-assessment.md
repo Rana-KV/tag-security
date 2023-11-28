@@ -17,6 +17,7 @@
 * [Secure development practices](#secure-development-practices)
 * [Security issue resolution](#security-issue-resolution)
 * [Appendix](#appendix)
+* [STRIDE Threat Model](#stride-threat-model)
 * [Questions about potential vulnerabilities](#questions-about-potential-vulnerabilities)
 
 ## Metadata
@@ -276,6 +277,10 @@ Deploys TiKV with TiDB:
 
 **Company: PingCAP; Offering: TiDB Cloud; Industry: DBaas.**
 PingCAP is the company behind the open-source TiKV project and supplies continuous development of the project. TiDB Cloud is a database-as-a-service (DBaas) provided by PingCAP. It is built using TiKV and TiDB technologies. It offers fully-managed clusters of the open source TiKV database in the cloud. TiDB Cloud manages various operational tasks such as provisioning, upgrades, scaling, monitoring, and ensuring high availability. The main difference is that some users may prefer the convenience of TiDB Cloud as a service to the responsibility of administering their own TiKV environment. Overall, TiDB Cloud is intended for utilization by users who desire to operate it locally or as a service. Both projects give users the opportunity to leverage PingCAP's innovative technology. 
+
+## STRIDE Threat Model
+
+
 
 
 ## Questions about potential vulnerabilities
