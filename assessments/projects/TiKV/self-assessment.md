@@ -63,27 +63,45 @@ Key-value databases are optimized for fast data retrieval. They offer high perfo
 TiKV is part of the Cloud Native Computing Foundation and created by PingCAP; it features ACID-compliant transactional APIs and ensures data consistency and high availability through the Raft consensus algorithm. The aim of the project is to provide a solution similar to Google Spanner and HBase, but with a focus on simplicity and ease of use for massive datasets.
 
 ### Architecture
+
+<img src="./src/imgs/tikv_wholepic.png">
+
 * OS Layer | Storage Engine (RocksDB) → Consensus Model → Transaction (implements MVCC = multiversion concurrency control and distributed transactions) → KV API | Clients (using the gRPC protocol to connect to TiKV)
+
 * **Storage Engine**
   - Uses RocksDB
     - High Read/Write Performance
     - Easy to embed in Rust (TiKV is written in Rust)
     - Stable
+  
 * **Consensus Model**
-  - Raft Consensus Algorithm
+  
+  <img src="./src/imgs/raft_consensus.png">
+  
+  * Raft Consensus Algorithm
     - Client reads/writes to leader node
     - Leader node replicates client requests to follower nodes
     - The transaction is successful is the majority of the nodes (inc. leader and follower nodes) have fulfilled the client request
     - If the leader node fails, then the up-to-date follower becomes the leader.
     - Minimum cluster of 3 nodes in TiKV
     - As long as the majority of nodes are alive, the whole cluster is available
-  - TiKV uses Range Sharding as opposed to Hash Sharding, which is used by other systems
-    - Range sharding is better if you want to scale
-  - TiKV brings together Replication (Raft Protocol) and Sharding (Range Sharding)
-  - When Scaling (i.e. adding extra nodes), the nodes are balanced and the leader of one Node (highlighted with the dark black border), becomes the leader of the new Node
+  
+  * TiKV uses Range Sharding as opposed to Hash Sharding, which is used by other systems
+  
+    <img src="./src/imgs/sharding.png">
+  
+    * Range sharding is better if you want to scale
+  
+  * TiKV brings together Replication (Raft Protocol) and Sharding (Range Sharding)
+  
+    <img src="./src/imgs/distributed_transaction.png">
+  
+  * When Scaling (i.e. adding extra nodes), the nodes are balanced and the leader of one Node (highlighted with the dark black border), becomes the leader of the new Node
+  
 * **The Placement Driver**
   - The PD Cluster stores “Region Information,” which the client can use to know what node to access
   - The Placement Driver is “Highly Available”
+
 * **Client**
   - Client uses gRPC protocol to interface with Placements Drivers and TiKV nodes
 
@@ -222,10 +240,12 @@ TikV provides two separate clients: Raw and Transactional
 
 * Are there proper access controls that restrict unauthorized access to TiKV nodes and Placement Drivers by potentially malicious clients?
   
+
 **Potential Vulnerabilities related to the Raft Consensus Algorithm:**
 
 * Are there proper integrity checks in place as the Leader Node is copying the client’s read/writes to the follower nodes?
   
+
 **Potential Vulnerabilities related to Multiversion Concurrency Control (MVCC) used in TiKV:**
 
 * Is there any way to tamper with the timestamps in TiKV transactions?
@@ -234,6 +254,7 @@ TikV provides two separate clients: Raw and Transactional
   - To prevent conflicts, TiKV uses locks to control key access.
   - In theory, these timestamps are not encrypted (!!!), so the security of TiKV is contingent upon the security measures implemented at higher and lower levels (higher – Application level; lower – RocksDB)
   
+
 **Potential Vulnerabilities related to RocksDB, TiKV’s storage engine:**
 * RocksDB may have vulnerable third-party dependencies, so if RocksDB has them, so does TiKV potentially.
 * RocksDB does not support Data-at-Rest encryption (DARE), which means encrypting any data stored in persistent storage
@@ -261,7 +282,7 @@ TikV provides two separate clients: Raw and Transactional
 * **TiKV Out of Memory(OOM)**: There were reported instances of TiKV running out of memory.
 * **Not All TiKV Clients Offer The Same Encryption**: According to TiKV's Security Configuration page, the TiKV Java Client does not currently support TLS. 
 
- 
+
 ***CII Best Practices***
   > A CII Best Practice is a process or method that, when executed effectively, leads to enhanced project performance. TiKV has many practices that seem to fulfill this concept.
   * **Change Management**: TiKV, like many open-source projects, involves changes in code, features, and security practices. Effective change management is very crucial in the particular context for ensuring stable and secure updates to the software
@@ -269,18 +290,20 @@ TikV provides two separate clients: Raw and Transactional
 * **Quality Management**: TiKV’s commitments to maintaining high-quality program and efficient processes showcases the CII best practices of quality management. This encompasses activities to improve efficiency and compliance, important for projects like TiKV which is widely used in various industries. 
 * **Lessons Learned**: Continuous improvement in software development is the key to achieve CII Best Practices. It is also important to keep track of its previous issues and bugs, and learn from its past experiences. TiKV has done a great job for that.
   
+
 ***Case Studies***
-  
+
 * **JD Cloud and Ai** – A scalable database was required by cloud computing provider JD Cloud & AI to store metadata for its Object Storage Service (OSS). The metadata was exceeding the capacity of their MySQL database at an alarming rate. A globally ordered key-value store with the capacity to store enormous quantities of data was necessary. They decided to utilize TiKV following a scaled evaluation of their alternatives. TiKV is highly proficient in managing extensive datasets and offers support for petabyte-scale deployments. TiKV satisfied the performance, scalability, and defect tolerance criteria set forth by JD Cloud & AI after thorough testing. The application from TiKV has a latency of 10ms and a QPS of over 40,000. It has substituted MySQL as the metadata repository for their OSS. As of now, the principal database utilized by JD Cloud & AI for storing OSS metadata is TiKV.
   
 * **SHAREit Group - SHAREit**, a widely used global content and advertising platform, aimed to improve their recommendation systems. Their focus was on achieving lower latency and an efficient SQL interface. The company chose to use TiKV for storing data online and interacting with their recommendation system. In addition, they have a plan to incorporate TiDB, which is an open-source HTAP database. This integration will allow them to use online machine learning, which means they can continuously enhance their recommendations by providing online training. TiKV and TiDB have successfully met their requirements for handling a large number of simultaneous write operations and providing a SQL interface. This has resulted in a simplified architecture for these systems. By adopting open source, engineers have been able to significantly decrease the amount of time they spend on feature engineering. For reference, this task took up around 50% of their time, but now it has been reduced to 25% or even less. SHAREit has improved its architecture and AI workflow for recommendations by adopting TiKV and TiDB and has resulted in a more efficient and streamlined process.
   
+
 Deploys TiKV with TiDB:
 
 * **Hulu** a popular video-streaming service, adopts TiKV with TiDB into their platform. There isn't a lot of detailed information about how Hulu specifically deploys TiKV and TiDB. However, based on the general understanding of TiKV, it is known that  TiKV is highly capable at managing distributed storage, while TiDB can handle SQL processing and transactions. Hulu could utilize it to store and organize large quantities of metadata associated with their video library and user interactions. TiKV lacks SQL interface and transactional support, so TiDB serves as a provider for these features. Hulu benefits from the combination of TiKV and TiDB because they provide a data infrastructure that is fast, scalable, and reliable. This enables Hulu to efficiently deliver content and recommendations to their audience.
 
 ***Related Projects / Vendors***
-  
+
 **Company: PingCAP; Offering: TiDB Cloud; Industry: DBaas.**
 PingCAP is the company behind the open-source TiKV project and supplies continuous development of the project. TiDB Cloud is a database-as-a-service (DBaas) provided by PingCAP. It is built using TiKV and TiDB technologies. It offers fully-managed clusters of the open source TiKV database in the cloud. TiDB Cloud manages various operational tasks such as provisioning, upgrades, scaling, monitoring, and ensuring high availability. The main difference is that some users may prefer the convenience of TiDB Cloud as a service to the responsibility of administering their own TiKV environment. Overall, TiDB Cloud is intended for utilization by users who desire to operate it locally or as a service. Both projects give users the opportunity to leverage PingCAP's innovative technology. 
 
