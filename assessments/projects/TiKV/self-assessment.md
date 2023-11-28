@@ -46,7 +46,7 @@ A table at the top for quick reference information, later used for indexing.
 | Doc | url |
 | -- | -- |
 | Security file | https://github.com/tikv/tikv/blob/master/security/Security-Audit.pdf |
-| Default and optional configs | TBD - https://example.org/config |
+| Default and optional configs | https://tikv.org/docs/3.0/tasks/configure/security/ |
 
 ## Overview
 **TiKV (Ti Key-Value)**
