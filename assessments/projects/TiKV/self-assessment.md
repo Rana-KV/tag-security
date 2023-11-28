@@ -280,36 +280,38 @@ PingCAP is the company behind the open-source TiKV project and supplies continuo
 
 ## Questions about potential vulnerabilities
 
-**Potential Vulnerabilities in Key-Value Database Systems:**
+**Potential vulnerabilities in Key-Value Database Systems:**
 
 * Are there proper access controls that restrict unauthorized access to TiKV nodes and Placement Drivers by potentially malicious clients?
+* How safe are password protection methods (two-factor authentication)?
 
-**Potential Vulnerabilities related to the Raft Consensus Algorithm:**
+**Potential vulnerabilities related to the Raft Consensus Algorithm:**
 
 * Are there proper integrity checks in place as the Leader Node is copying the client’s read/writes to the follower nodes?
+* Raft Consensus Algorithm could potentially be exploited via a Byzantine-control attack. If a malicious node is voted as leader, what does TiKV do to protect the rest of the Raft group?
 
-**Potential Vulnerabilities related to Multiversion Concurrency Control (MVCC) used in TiKV:**
+**Potential vulnerabilities related to Multiversion Concurrency Control (MVCC) used in TiKV:**
 
 * Is there any way to tamper with the timestamps in TiKV transactions?
   - Transaction timestamps are stored in the metadata associated with each key-value pair
   - If there is a conflict, i.e. two transactions trying to write to modify the same key, then only one transaction can be completed successfully, while others have to be retried.
   - To prevent conflicts, TiKV uses locks to control key access.
-  - In theory, these timestamps are not encrypted (!!!), so the security of TiKV is contingent upon the security measures implemented at higher and lower levels (higher – Application level; lower – RocksDB)
+  - In theory, these timestamps are **not** encrypted, so the security of TiKV is contingent upon the security measures implemented at higher and lower levels (higher – Application level; lower – RocksDB)
 
-**Potential Vulnerabilities related to RocksDB, TiKV’s storage engine:**
+**Potential vulnerabilities related to RocksDB, TiKV’s storage engine:**
 * RocksDB may have vulnerable third-party dependencies, so if RocksDB has them, so does TiKV potentially.
-* RocksDB does not support Data-at-Rest encryption (DARE), which means encrypting any data stored in persistent storage
-* In fact, RocksDB does not have any built-in encryption features
+* RocksDB does not support Data-at-Rest encryption (DARE), so does this affect the layers above?
+* In fact, RocksDB does not have any built-in encryption features...
 
-* Client: A compromised client could potentially get unencrypted access, which would be made even worse due to a unencrypted disk
-How safe are password protection methods (two-factor authentication)
-* TikV Node: Raft Consensus Algorithm could potentially be exploited via a Byzantine-control attack, if a malicious node is voted as leader, what could they do
-* Placement Driver: Responsible for storing all the metadata, potential data breach, sees all the changes?
-How vulnerable is the placement driver
-If you control could you effect availability or shut down
-* TimeStamp Oracle (embedded into PD): Plays a significant role in Percolator transaction model (relevant??), and every transaction requires contacting the oracle at least twice, requires proper scalability.
+**Potential vulnerabilities related to TiKV clients:**
+* A compromised client could potentially get unencrypted access, which would be made even worse due to an unencrypted disk?
+
+**Potential vulnerabilities related to Placement Driver:**
+* Placement Driver is responsible for storing all the metadata. If you control the Placement Driver could you effect availability or shut down the entire system?
+* How vulnerable is the placement driver?
+
+**Potential vulnerabilities related to Timestamp Oracle:**
+* How can the Timestamp Oracle meet excessive demand without scaling to multiple nodes (in large projects)
 * Timestamp Oracle is unable to be scaled up to multiple nodes
-when the current Raft leader fails, there is a gap wherein the system cannot allocate a timestamp before a new leader has been elected 
-Failure + byzantine failure?
-Single point of failure to completely shut down availability
+* When the current Raft leader fails, there is a gap wherein the system cannot allocate a timestamp before a new leader has been elected. Can an attacker exploit this? 
 
