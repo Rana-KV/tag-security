@@ -16,6 +16,7 @@ Express Learning course provided by Linux Foundation Training & Certification:
 * [Metadata](#metadata)
   * [Security links](#security-links)
 * [Overview](#overview)
+  * [Architecture](#architecture)
   * [Actors](#actors)
   * [Actions](#actions)
   * [Background](#background)
@@ -63,12 +64,12 @@ TiKV is part of the Cloud Native Computing Foundation and created by PingCAP; it
 
 ### Architecture
 * OS Layer | Storage Engine (RocksDB) → Consensus Model → Transaction (implements MVCC = multiversion concurrency control and distributed transactions) → KV API | Clients (using the gRPC protocol to connect to TiKV)
-* Storage Engine
+* **Storage Engine**
   - Uses RocksDB
     - High Read/Write Performance
     - Easy to embed in Rust (TiKV is written in Rust)
     - Stable
-* Consensus Model
+* **Consensus Model**
   - Raft Consensus Algorithm
     - Client reads/writes to leader node
     - Leader node replicates client requests to follower nodes
@@ -80,10 +81,10 @@ TiKV is part of the Cloud Native Computing Foundation and created by PingCAP; it
     - Range sharding is better if you want to scale
   - TiKV brings together Replication (Raft Protocol) and Sharding (Range Sharding)
   - When Scaling (i.e. adding extra nodes), the nodes are balanced and the leader of one Node (highlighted with the dark black border), becomes the leader of the new Node
-* The Placement Driver
+* **The Placement Driver**
   - The PD Cluster stores “Region Information,” which the client can use to know what node to access
   - The Placement Driver is “Highly Available”
-* Client
+* **Client**
   - Client uses gRPC protocol to interface with Placements Drivers and TiKV nodes
 
 ### Actors
