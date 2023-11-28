@@ -42,8 +42,7 @@ A table at the top for quick reference information, later used for indexing.
 
 ### Security links
 
-Provide the list of links to existing security documentation for the project. You may
-use the table below as an example:
+
 | Doc | url |
 | -- | -- |
 | Security file | https://github.com/tikv/tikv/blob/master/security/Security-Audit.pdf |
